@@ -116,4 +116,14 @@ userDatabase.add(
     { name: 'Harly', surname: 'Quine', budget: 2200 }
 );
 
-console.log(userDatabase.getByName('Semen'));
+
+const summaryBudget = userDatabase.getAll()
+            .filter(user => user.budget > 3000)
+            .map(user => {
+                const data = { data: `${user.name} ${user.surname}`, budget: user.budget };
+                console.log(data);
+                return data;
+            })
+            .reduce( (sum, user) => sum + user.budget, 0);
+
+console.log(summaryBudget);
