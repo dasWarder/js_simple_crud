@@ -49,10 +49,12 @@ class UserDatabase extends Database {
         this.idGenerator = 1;
     };
 
-    add(user) {
-        user.id = this.idGenerator++;
-        this.cache.set(user.id, user);
-        return super.add(user);
+    add(...users) {
+        users.forEach(user => {
+            user.id = this.idGenerator++;
+            this.cache.set(user.id, user);
+            return super.add(user);
+        })
     };
 
     getById(id) {
@@ -106,10 +108,12 @@ class UserDatabase extends Database {
 
 const userDatabase = new UserDatabase();
 
-userDatabase.add({ name: 'Alex', surname: 'Petrov', budget: 2500 });
+userDatabase.add(
+    { name: 'Alex', surname: 'Petrov', budget: 2500 },
+    { name: 'Semen', surname: 'Subochev', budget: 3200 },
+    { name: 'Jack', surname: 'Black', budget: 5200 },
+    { name: 'David', surname: 'Nicholson', budget: 4700 },
+    { name: 'Harly', surname: 'Quine', budget: 2200 }
+);
 
-const user = userDatabase.getById(1);
-
-userDatabase.update(1, { name: 'Petr', surname: 'Alexandrov', budget: 3200 });
-
-console.log(userDatabase.getByName('Petr'));
+console.log(userDatabase.getByName('Semen'));
